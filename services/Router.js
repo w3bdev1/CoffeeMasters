@@ -8,6 +8,10 @@ export default {
             });
         });
 
+        window.addEventListener("popstate", (event) => {
+            this.go(event.state.route, false);
+        });
+
         this.go(location.pathname);
     },
     go: (route, saveHistory = true) => {
@@ -28,6 +32,10 @@ export default {
                 pageElement.textContent = "Your Order";
                 break;
             default:
+                if (route.startsWith("/products-")) {
+                    const paramId = route.substring(route.lastIndexOf("-") + 1);
+                    pageElement.dataset.id = paramId;
+                }
                 break;
         }
 
